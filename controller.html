@@ -9,6 +9,8 @@
 
   <script type="text/javascript">
     $(document).ready(function () {
+      var score1=0,score2=0;
+      
       $("#btnADDTEAM_A").click(
         function () {
           sendCommand("galaxy.signage.me", "support@scotwell", "Scotwell123", "4", "addA", "1");
@@ -44,23 +46,48 @@
     });
   </script>
 </head>
-<div style="color:blue;max-width:500px;text-align:center;">
+<div style="color:blue;max-width:500px;text-align:center;margin:auto;">
 
   <body>
     <title>Controller</title>
     <h1>Scotwell</h1>
-    <h3>TEAM</h3>
-    <button id="btnADDTEAM_A" style="width:100px;height:60">add1</button>
-    <button id="btnSUBTEAM_A" style="width:100px;height:60">sub1</button>
 
-    <button id="btnADDTEAM_B" style="width:100px;height:60">add2</button>
-    <button id="btnSUBTEAM_B" style="width:100px;height:60">sub2</button>
+    
 
 
+    <style type="text/css">
+      .tg  {border-collapse:collapse;border-spacing:0;margin:auto}
+      .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+      .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+      .tg .tg-iq9e{font-size:15px;border-color:#ffffff;text-align:center;}
+      </style>
+      <table class="tg">
+        <tr>
+          <th class="tg-iq9e"><h2>team 1</h2> </th>
+          <th class="tg-iq9e">vs</th>
+          <th class="tg-iq9e"><h2>team 2</h2></th>
+        </tr>
+        <tr>
+          <td class="tg-iq9e"><button id="btnADDTEAM_A" style="width:100px;height:60">add1</button></td>
+          <td class="tg-iq9e"></td>
+          <td class="tg-iq9e"><button id="btnADDTEAM_B" style="width:100px;height:60">add2</button></td>
+        </tr>
+        <tr>
+          <td class="tg-iq9e">c</td>
+          <td class="tg-iq9e"></td>
+          <td class="tg-iq9e">c</td>
+        </tr>
+        <tr>
+          <td class="tg-iq9e"><button id="btnSUBTEAM_A" style="width:100px;height:60">sub1</button>
+          </td>
+          <td class="tg-iq9e"></td>
+          <td class="tg-iq9e"><button id="btnSUBTEAM_B" style="width:100px;height:60">sub2</button></td>
+        </tr>
+      </table>
 
-    <FORM NAME="INFO_INPUT" style="text-align: left;">
-      title:<input type="text" name="Title" placeholder="Event Name"><br>
-      special:<input type="text" name="Special" placeholder="Special Message"><br>
+    <FORM NAME="INFO_INPUT" style="text-align: center;">
+      Title:<input type="text" name="Title" placeholder="Event Name"><br>
+      Special:<input type="text" name="Special" placeholder="Special Message"><br>
 
 
     </FORM>
