@@ -1,0 +1,68 @@
+<html>
+
+<head>
+  <script type="text/javascript" src="https://ajax.microsoft.com/ajax/jQuery/jquery-1.4.2.min.js"></script>
+  <script type="text/javascript" src="http://signage.me/demo/sendCommand.js"></script>
+
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $("#btnADDTEAM_A").click(
+        function () {
+          sendCommand("galaxy.signage.me", "support@scotwell", "Scotwell123", "4", "addA", "1");
+        });
+
+
+      $("#btnSUBTEAM_A").click(
+        function () {
+          sendCommand("galaxy.signage.me", "support@scotwell", "Scotwell123", "4", "subA", "1");
+        });
+
+      $("#btnADDTEAM_B").click(
+        function () {
+          sendCommand("galaxy.signage.me", "support@scotwell", "Scotwell123", "4", "addB", "1");
+        });
+
+
+      $("#btnSUBTEAM_B").click(
+        function () {
+          sendCommand("galaxy.signage.me", "support@scotwell", "Scotwell123", "4", "subB", "1");
+        });
+
+      $("#btnREFRESH").click(
+        function () {
+
+
+          sendCommand("galaxy.signage.me", "support@scotwell", "Scotwell123", "4", "title_rec", document
+            .INFO_INPUT.title.value);
+          sendCommand("galaxy.signage.me", "support@scotwell", "Scotwell123", "4", "special_rec", document
+            .INFO_INPUT.special.value);
+        });
+
+    });
+  </script>
+</head>
+
+<body>
+  <h1></h1>
+  <button id="btnADDTEAM_A" style="width:200px;height:60">add1</button>
+  <button id="btnSUBTEAM_A" style="width:200px;height:60">sub1</button>
+
+  <button id="btnADDTEAM_B" style="width:200px;height:60">add2</button>
+  <button id="btnSUBTEAM_B" style="width:200px;height:60">sub2</button>
+
+
+
+  <FORM NAME="INFO_INPUT">
+    title:<input type="text" name="title"><br>
+    special:<input type="text" name="special"><br>
+
+
+  </FORM>
+  <button id="btnREFRESH" style="width:200px;height:60">refresh</button>
+
+</body>
+
+</html>
