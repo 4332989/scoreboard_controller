@@ -3,96 +3,209 @@
 <head>
   <script type="text/javascript" src="https://ajax.microsoft.com/ajax/jQuery/jquery-1.4.2.min.js"></script>
   <script type="text/javascript" src="http://signage.me/demo/sendCommand.js"></script>
-
-
-
-
-  <script type="text/javascript">
-    $(document).ready(function () {
-      var score1=0,score2=0;
-      
-      $("#btnADDTEAM_A").click(
-        function () {
-          sendCommand("galaxy.signage.me", "support@scotwell", "Scotwell123", "4", "addA", "1");
-        });
-
-
-      $("#btnSUBTEAM_A").click(
-        function () {
-          sendCommand("galaxy.signage.me", "support@scotwell", "Scotwell123", "4", "subA", "1");
-        });
-
-      $("#btnADDTEAM_B").click(
-        function () {
-          sendCommand("galaxy.signage.me", "support@scotwell", "Scotwell123", "4", "addB", "1");
-        });
-
-
-      $("#btnSUBTEAM_B").click(
-        function () {
-          sendCommand("galaxy.signage.me", "support@scotwell", "Scotwell123", "4", "subB", "1");
-        });
-
-      $("#btnREFRESH").click(
-        function () {
-
-
-          sendCommand("galaxy.signage.me", "support@scotwell", "Scotwell123", "4", "title_rec", document
-            .INFO_INPUT.title.value);
-          sendCommand("galaxy.signage.me", "support@scotwell", "Scotwell123", "4", "special_rec", document
-            .INFO_INPUT.special.value);
-        });
-
-    });
-  </script>
 </head>
+
+<div class="results"></div>
 <div style="color:blue;max-width:500px;text-align:center;margin:auto;">
 
   <body>
     <title>Controller</title>
     <h1>Scotwell</h1>
 
-    
+    <FORM NAME="INFO_INPUT" style="text-align: center;">
+      Title:<input type="text" name="title" placeholder="Event Name" /><br />
+      Special:<input type="text" name="special" placeholder="Special Message" /><br />
+      TEAM 1:<input class="team1" type="text" placeholder="Team 1 Name" /><br />
+      TEAM 2:<input class="team2" type="text" placeholder="Team 2 Name" /><br />
+      Set:<input type="text" name="set" placeholder="Set Number" /><br />
+    </FORM>
 
+    <button id="btnREFRESH" style="width:80px;height:30">refresh</button>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        var $jsTeam1 = document.querySelector(".team1");
+        var $jsTeam2 = document.querySelector(".team2");
+        var $jsTeamAValue = document.querySelector(".jsTeamAValue");
+        var $jsTeamBValue = document.querySelector(".jsTeamBValue");
+
+        $jsTeam1.addEventListener(
+          "input",
+          function (event) {
+            $jsTeamAValue.innerHTML = $jsTeam1.value;
+          },
+          false
+        );
+        $jsTeam2.addEventListener(
+          "input",
+          function (event) {
+            $jsTeamBValue.innerHTML = $jsTeam2.value;
+          },
+          false
+        );
+
+        $("#btnADDTEAM_A").click(function () {
+          sendCommand(
+            "galaxy.signage.me",
+            "support@scotwell",
+            "Scotwell123",
+            "4",
+            "addA",
+            "1"
+          );
+        });
+        $("#btnSUBTEAM_A").click(function () {
+          sendCommand(
+            "galaxy.signage.me",
+            "support@scotwell",
+            "Scotwell123",
+            "4",
+            "subA",
+            "1"
+          );
+        });
+        $("#btnADDTEAM_B").click(function () {
+          sendCommand(
+            "galaxy.signage.me",
+            "support@scotwell",
+            "Scotwell123",
+            "4",
+            "addB",
+            "1"
+          );
+        });
+        $("#btnSUBTEAM_B").click(function () {
+          sendCommand(
+            "galaxy.signage.me",
+            "support@scotwell",
+            "Scotwell123",
+            "4",
+            "subB",
+            "1"
+          );
+        });
+        $("#btnREFRESH").click(function () {
+          sendCommand(
+            "galaxy.signage.me",
+            "support@scotwell",
+            "Scotwell123",
+            "4",
+            "title_rec",
+            document.INFO_INPUT.title.value
+          );
+          sendCommand(
+            "galaxy.signage.me",
+            "support@scotwell",
+            "Scotwell123",
+            "4",
+            "special_rec",
+            document.INFO_INPUT.special.value
+          );
+          sendCommand(
+            "galaxy.signage.me",
+            "support@scotwell",
+            "Scotwell123",
+            "4",
+            "team1_rec",
+            document.INFO_INPUT.team1_name.value
+          );
+          sendCommand(
+            "galaxy.signage.me",
+            "support@scotwell",
+            "Scotwell123",
+            "4",
+            "team2_rec",
+            document.INFO_INPUT.team2_name.value
+          );
+          sendCommand(
+            "galaxy.signage.me",
+            "support@scotwell",
+            "Scotwell123",
+            "4",
+            "set_rec",
+            document.INFO_INPUT.set.value
+          );
+        });
+      });
+    </script>
 
     <style type="text/css">
-      .tg  {border-collapse:collapse;border-spacing:0;margin:auto}
-      .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
-      .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
-      .tg .tg-iq9e{font-size:15px;border-color:#ffffff;text-align:center;}
-      </style>
-      <table class="tg">
-        <tr>
-          <th class="tg-iq9e"><h2>team 1</h2> </th>
-          <th class="tg-iq9e">vs</th>
-          <th class="tg-iq9e"><h2>team 2</h2></th>
-        </tr>
-        <tr>
-          <td class="tg-iq9e"><button id="btnADDTEAM_A" style="width:100px;height:60">add1</button></td>
-          <td class="tg-iq9e"></td>
-          <td class="tg-iq9e"><button id="btnADDTEAM_B" style="width:100px;height:60">add2</button></td>
-        </tr>
-        <tr>
-          <td class="tg-iq9e">c</td>
-          <td class="tg-iq9e"></td>
-          <td class="tg-iq9e">c</td>
-        </tr>
-        <tr>
-          <td class="tg-iq9e"><button id="btnSUBTEAM_A" style="width:100px;height:60">sub1</button>
-          </td>
-          <td class="tg-iq9e"></td>
-          <td class="tg-iq9e"><button id="btnSUBTEAM_B" style="width:100px;height:60">sub2</button></td>
-        </tr>
-      </table>
+      .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        margin: auto;
+      }
 
-    <FORM NAME="INFO_INPUT" style="text-align: center;">
-      Title:<input type="text" name="Title" placeholder="Event Name"><br>
-      Special:<input type="text" name="Special" placeholder="Special Message"><br>
+      .tg td {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: black;
+      }
 
+      .tg th {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: black;
+      }
 
-    </FORM>
-    <button id="btnREFRESH" style="width:200px;height:60">refresh</button>
-
+      .tg .tg-iq9e {
+        font-size: 15px;
+        border-color: #ffffff;
+        text-align: center;
+      }
+    </style>
+    <table class="tg">
+      <tr>
+        <th class="tg-iq9e">
+          <h2><span class="jsTeamAValue">Team A</span></h2>
+        </th>
+        <th class="tg-iq9e">vs</th>
+        <th class="tg-iq9e">
+          <h2><span class="jsTeamBValue">Team B</span></h2>
+        </th>
+      </tr>
+      <tr>
+        <td class="tg-iq9e">
+          <button id="btnADDTEAM_A" style="width:100px;height:60">
+            add1
+          </button>
+        </td>
+        <td class="tg-iq9e"></td>
+        <td class="tg-iq9e">
+          <button id="btnADDTEAM_B" style="width:100px;height:60">
+            add2
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td class="tg-iq9e">c</td>
+        <td class="tg-iq9e"></td>
+        <td class="tg-iq9e">c</td>
+      </tr>
+      <tr>
+        <td class="tg-iq9e">
+          <button id="btnSUBTEAM_A" style="width:100px;height:60">
+            sub1
+          </button>
+        </td>
+        <td class="tg-iq9e"></td>
+        <td class="tg-iq9e">
+          <button id="btnSUBTEAM_B" style="width:100px;height:60">
+            sub2
+          </button>
+        </td>
+      </tr>
+    </table>
   </body>
 </div>
 
