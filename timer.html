@@ -1,0 +1,129 @@
+<!-- 
+    author: GOH
+    version: x.x.x
+    VCS: git    
+    modified: 1103 9/7/19
+-->
+<html>
+
+<head>
+    <!-- library -->
+    <script type="text/javascript" src="https://ajax.microsoft.com/ajax/jQuery/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="http://signage.me/demo/sendCommand.js"></script>
+</head>
+
+<div style="color:rgb(4, 155, 79);max-width:700px;text-align:center;margin:auto;">
+
+    <body>
+        <title>timer</title>
+
+        <!-- user input form -->
+
+
+        <button id="btnREFRESH" style="width:80px;height:30">refresh</button>
+        <button id="start">START</button>
+        <button id="stop">STOP</button>
+        <button id="clear">RESET</button>
+
+        <!-- javascript -->
+        <script type="text/javascript">
+            //getting team name
+            $(document).ready(function () {
+                var $jstimer = document.querySelector(".timer");
+                var $jstimerValue = document.querySelector(".jstimerValue");
+                //instantly display on screen
+
+                $jstimer.addEventListener(
+                    "input",
+                    function (event) {
+                        $jstimerValue.innerHTML = $jstimer.value;
+                    },
+                    false
+                );
+
+
+            });
+
+            /////timer
+            var interval = 1000; // ms
+            var expected = Date.now() + interval;
+
+            var drift_history = [];
+            var drift_history_samples = 10;
+            var drift_correction = 0;
+            var seconds = 0,
+                minutes = 0,
+                total_time = 0;
+            var start = document.getElementById('start'),
+                stop = document.getElementById('stop'),
+                clear = document.getElementById('clear');
+
+            function calc_drift(arr) {
+                // Calculate drift correction.
+
+                var values = arr.concat(); // copy array so it isn't mutated
+
+                values.sort(function (a, b) {
+                    return a - b;
+                });
+                if (values.length === 0) return 0;
+                var half = Math.floor(values.length / 2);
+                if (values.length % 2) return values[half];
+                var median = (values[half - 1] + values[half]) / 2.0;
+
+                return median;
+            }
+
+            setTimeout(step, interval);
+
+            function step() {
+                var dt = Date.now() - expected; // the drift (positive for overshooting)
+                if (dt > interval) {
+                    // something really bad happened. Maybe the browser (tab) was inactive?
+                    // possibly special handling to avoid futile "catch up" run
+                }
+                // do what is to be done
+                seconds++;
+                if (seconds >= 60) {
+                    seconds = 0;
+                    minutes++;
+                }
+
+                sendCommand(
+                    "galaxy.signage.me",
+                    "support@scotwell",
+                    "Scotwell123",
+                    "4",
+                    "timer_rec",
+                    document.step.minutes.value
+                );
+                // don't update the history for exceptionally large values
+                if (dt <= interval) {
+                    // sample drift amount to history after removing current correction
+                    // (add to remove because the correction is applied by subtraction)
+                    drift_history.push(dt + drift_correction);
+
+                    // predict new drift correction
+                    drift_correction = calc_drift(drift_history);
+
+                    // cap and refresh samples
+                    if (drift_history.length >= drift_history_samples) {
+                        drift_history.shift();
+                    }
+                }
+
+                expected += interval;
+                // take into account drift with prediction
+                setTimeout(step, Math.max(0, interval - dt - drift_correction));
+                /////end of timer
+            }
+        </script>
+
+
+        <span class="jstimerValue"></span>
+
+
+    </body>
+</div>
+
+</html>
