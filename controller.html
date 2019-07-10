@@ -1,232 +1,225 @@
+<!-- author: GOH
+    version: 4.5.3
+    VCS: git    
+    modified: 1103 9/7/19
+-->
 <html>
-  <head>
-    <script
-      type="text/javascript"
-      src="https://ajax.microsoft.com/ajax/jQuery/jquery-1.4.2.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="http://signage.me/demo/sendCommand.js"
-    ></script>
-  </head>
+<head>
+    <!-- library needed -->
+    <script type="text/javascript" src="https://ajax.microsoft.com/ajax/jQuery/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="http://signage.me/demo/sendCommand.js"></script>
+</head>
 
-  <div class="results"></div>
-  <div
-    style="color:rgb(4, 155, 79);max-width:700px;text-align:center;margin:auto;"
-  >
+<div style="color:rgb(4, 155, 79);max-width:700px;text-align:center;margin:auto;">
     <body>
-      <title>Controller</title>
-      <h1>Scotwell</h1>
+        <title>Controller</title>
+        <h1>Scotwell</h1>
+        <!-- user input form -->
+        <FORM NAME="INFO_INPUT" style="text-align: center;">
+            Title:<input type="text" name="title" placeholder="Event Name" /><br />
+            Special:<input type="text" name="special" placeholder="Special Message" /><br />
+            TEAM 1:<input class="team1" type="text" name="team1_name" placeholder="Team 1 Name" /><br />
+            TEAM 2:<input class="team2" type="text" name="team2_name" placeholder="Team 2 Name" /><br />
+            Set: <input type="text" name="set" placeholder="Set Number" /><br />
+        </FORM>
 
-      <FORM NAME="INFO_INPUT" style="text-align: center;">
-        Title:<input type="text" name="title" placeholder="Event Name" /><br />
-        Special:
-        <input type="text" name="special" placeholder="Special Message" /><br />
-        TEAM 1:<input
-          class="team1"
-          type="text"
-          placeholder="Team 1 Name"
-        /><br />
-        TEAM 2:<input
-          class="team2"
-          type="text"
-          placeholder="Team 2 Name"
-        /><br />
-        Set: <input type="text" name="set" placeholder="Set Number" /><br />
-      </FORM>
+        <button id="btnREFRESH" style="width:80px;height:30">refresh</button>
+        <!-- javascript -->
+        <script type="text/javascript">
+            //getting team name
+            $(document).ready(function () {
+                var $jsTeam1 = document.querySelector(".team1");
+                var $jsTeam2 = document.querySelector(".team2");
+                var $jsTeamAValue = document.querySelector(".jsTeamAValue");
+                var $jsTeamBValue = document.querySelector(".jsTeamBValue");
+                //instantly display on screen
+                $jsTeam1.addEventListener(
+                    "input",
+                    function (event) {
+                        $jsTeamAValue.innerHTML = $jsTeam1.value;
+                    },
+                    false
+                );
+                $jsTeam2.addEventListener(
+                    "input",
+                    function (event) {
+                        $jsTeamBValue.innerHTML = $jsTeam2.value;
+                    },
+                    false
+                );
+                //clicks will instantly sent data to signage player
+                //format are: server,email,password,station id,receive event name,return value
+                $("#btnADDTEAM_A").click(function () {
+                    sendCommand(
+                        "galaxy.signage.me",
+                        "support@scotwell",
+                        "Scotwell123",
+                        "4",
+                        "addA",
+                        "1"
+                    );
+                });
+                $("#btnSUBTEAM_A").click(function () {
+                    sendCommand(
+                        "galaxy.signage.me",
+                        "support@scotwell",
+                        "Scotwell123",
+                        "4",
+                        "subA",
+                        "1"
+                    );
+                });
+                $("#btnADDTEAM_B").click(function () {
+                    sendCommand(
+                        "galaxy.signage.me",
+                        "support@scotwell",
+                        "Scotwell123",
+                        "4",
+                        "addB",
+                        "1"
+                    );
+                });
+                $("#btnSUBTEAM_B").click(function () {
+                    sendCommand(
+                        "galaxy.signage.me",
+                        "support@scotwell",
+                        "Scotwell123",
+                        "4",
+                        "subB",
+                        "1"
+                    );
+                });
+                $("#btnREFRESH").click(function () {
+                    sendCommand(
+                        "galaxy.signage.me",
+                        "support@scotwell",
+                        "Scotwell123",
+                        "4",
+                        "title_rec",
+                        document.INFO_INPUT.title.value
+                    );
+                    sendCommand(
+                        "galaxy.signage.me",
+                        "support@scotwell",
+                        "Scotwell123",
+                        "4",
+                        "special_rec",
+                        document.INFO_INPUT.special.value
+                    );
+                    sendCommand(
+                        "galaxy.signage.me",
+                        "support@scotwell",
+                        "Scotwell123",
+                        "4",
+                        "team1_rec",
+                        document.INFO_INPUT.team1_name.value
+                    );
+                    sendCommand(
+                        "galaxy.signage.me",
+                        "support@scotwell",
+                        "Scotwell123",
+                        "4",
+                        "team2_rec",
+                        document.INFO_INPUT.team2_name.value
+                    );
+                    sendCommand(
+                        "galaxy.signage.me",
+                        "support@scotwell",
+                        "Scotwell123",
+                        "4",
+                        "set_rec",
+                        document.INFO_INPUT.set.value
+                    );
+                });
+            });
+        </script>
+        <!-- table css editor -->
+        <style type="text/css">
+            .tg {
+                border-collapse: collapse;
+                border-spacing: 0;
+                margin: auto;
+            }
 
-      <button id="btnREFRESH" style="width:80px;height:30">refresh</button>
-      <script type="text/javascript">
-        $(document).ready(function() {
-          var $jsTeam1 = document.querySelector(".team1");
-          var $jsTeam2 = document.querySelector(".team2");
-          var $jsTeamAValue = document.querySelector(".jsTeamAValue");
-          var $jsTeamBValue = document.querySelector(".jsTeamBValue");
+            .tg td {
+                font-family: Arial, sans-serif;
+                font-size: 20px;
+                padding: 5px 5px;
+                border-style: solid;
+                border-width: 1px;
+                overflow: hidden;
+                word-break: normal;
+                border-color: rgb(0, 0, 0);
+            }
 
-          $jsTeam1.addEventListener(
-            "input",
-            function(event) {
-              $jsTeamAValue.innerHTML = $jsTeam1.value;
-            },
-            false
-          );
-          $jsTeam2.addEventListener(
-            "input",
-            function(event) {
-              $jsTeamBValue.innerHTML = $jsTeam2.value;
-            },
-            false
-          );
+            .tg th {
+                font-family: Arial, sans-serif;
+                font-size: 20px;
+                font-weight: normal;
+                padding: 10px 5px;
+                border-style: solid;
+                border-width: 1px;
+                overflow: hidden;
+                word-break: normal;
+                border-color: black;
+            }
 
-          $("#btnADDTEAM_A").click(function() {
-            sendCommand(
-              "galaxy.signage.me",
-              "support@scotwell",
-              "Scotwell123",
-              "4",
-              "addA",
-              "1"
-            );
-          });
-          $("#btnSUBTEAM_A").click(function() {
-            sendCommand(
-              "galaxy.signage.me",
-              "support@scotwell",
-              "Scotwell123",
-              "4",
-              "subA",
-              "1"
-            );
-          });
-          $("#btnADDTEAM_B").click(function() {
-            sendCommand(
-              "galaxy.signage.me",
-              "support@scotwell",
-              "Scotwell123",
-              "4",
-              "addB",
-              "1"
-            );
-          });
-          $("#btnSUBTEAM_B").click(function() {
-            sendCommand(
-              "galaxy.signage.me",
-              "support@scotwell",
-              "Scotwell123",
-              "4",
-              "subB",
-              "1"
-            );
-          });
-          $("#btnREFRESH").click(function() {
-            sendCommand(
-              "galaxy.signage.me",
-              "support@scotwell",
-              "Scotwell123",
-              "4",
-              "title_rec",
-              document.INFO_INPUT.title.value
-            );
-            sendCommand(
-              "galaxy.signage.me",
-              "support@scotwell",
-              "Scotwell123",
-              "4",
-              "special_rec",
-              document.INFO_INPUT.special.value
-            );
-            sendCommand(
-              "galaxy.signage.me",
-              "support@scotwell",
-              "Scotwell123",
-              "4",
-              "team1_rec",
-              document.INFO_INPUT.team1_name.value
-            );
-            sendCommand(
-              "galaxy.signage.me",
-              "support@scotwell",
-              "Scotwell123",
-              "4",
-              "team2_rec",
-              document.INFO_INPUT.team2_name.value
-            );
-            sendCommand(
-              "galaxy.signage.me",
-              "support@scotwell",
-              "Scotwell123",
-              "4",
-              "set_rec",
-              document.INFO_INPUT.set.value
-            );
-          });
-        });
-      </script>
+            .tg .tg-iq9e {
+                font-size: 20px;
+                border-color: #ffffff;
+                text-align: center;
+            }
 
-      <style type="text/css">
-        .tg {
-          border-collapse: collapse;
-          border-spacing: 0;
-          margin: auto;
-        }
-
-        .tg td {
-          font-family: Arial, sans-serif;
-          font-size: 20px;
-          padding: 5px 5px;
-          border-style: solid;
-          border-width: 1px;
-          overflow: hidden;
-          word-break: normal;
-          border-color: rgb(0, 0, 0);
-        }
-
-        .tg th {
-          font-family: Arial, sans-serif;
-          font-size: 20px;
-          font-weight: normal;
-          padding: 10px 5px;
-          border-style: solid;
-          border-width: 1px;
-          overflow: hidden;
-          word-break: normal;
-          border-color: black;
-        }
-
-        .tg .tg-iq9e {
-          font-size: 20px;
-          border-color: #ffffff;
-          text-align: center;
-        }
-
-        .tg .tg-1umq {
-          font-size: 20px;
-          border-color: #ffffff;
-          text-align: center;
-        }
-      </style>
-      <table class="tg">
-        <tr>
-          <th class="tg-iq9e">
-            <h2><span class="jsTeamAValue">Team A</span></h2>
-          </th>
-          <th class="tg-iq9e">vs</th>
-          <th class="tg-iq9e">
-            <h2><span class="jsTeamBValue">Team B</span></h2>
-          </th>
-        </tr>
-        <tr>
-          <td class="tg-1umq">
-            <button id="btnADDTEAM_A" style="width:100px;height:60" font-size="40px">
-              +
-            </button>
-          </td>
-          <td class="tg-iq9e"></td>
-          <td class="tg-1umq">
-            <button id="btnADDTEAM_B" style="width:100px;height:60">
-              +
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td class="tg-iq9e">c</td>
-          <td class="tg-iq9e"></td>
-          <td class="tg-iq9e">c</td>
-        </tr>
-        <tr>
-          <td class="tg-1umq">
-            <button id="btnSUBTEAM_A" style="width:100px;height:60">
-              -
-            </button>
-          </td>
-          <td class="tg-iq9e"></td>
-          <td class="tg-1umq">
-            <button id="btnSUBTEAM_B" style="width:100px;height:60">
-              -
-            </button>
-          </td>
-        </tr>
-      </table>
+            .tg .tg-1umq {
+                font-size: 40px;
+                border-color: #ffffff;
+                text-align: center;
+            }
+        </style>
+        <table class="tg">
+            <tr>
+                <th class="tg-iq9e">
+                    <h2><span class="jsTeamAValue">Team A</span></h2>
+                </th>
+                <th class="tg-iq9e">vs</th>
+                <th class="tg-iq9e">
+                    <h2><span class="jsTeamBValue">Team B</span></h2>
+                </th>
+            </tr>
+            <tr>
+                <td class="tg-1umq">
+                    <button id="btnADDTEAM_A" style="width:100px;height:60">
+                        +
+                    </button>
+                </td>
+                <td class="tg-iq9e"></td>
+                <td class="tg-1umq">
+                    <button id="btnADDTEAM_B" style="width:100px;height:60">
+                        +
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <!-- will add displaying current score function -->
+                <td class="tg-iq9e">c</td>
+                <td class="tg-iq9e"></td>
+                <td class="tg-iq9e">c</td>
+            </tr>
+            <tr>
+                <td class="tg-1umq">
+                    <button id="btnSUBTEAM_A" style="width:100px;height:60">
+                        -
+                    </button>
+                </td>
+                <td class="tg-iq9e"></td>
+                <td class="tg-1umq">
+                    <button id="btnSUBTEAM_B" style="width:100px;height:60">
+                        -
+                    </button>
+                </td>
+            </tr>
+        </table>
     </body>
-  </div>
+</div>
+
 </html>
