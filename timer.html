@@ -1,6 +1,6 @@
 <!-- 
     author: GOH
-    version: x.x.x.x
+    version: x.x.x
     VCS: git    
     modified: 1103 9/7/19
 -->
@@ -13,27 +13,118 @@
 </head>
 
 <div style="color:rgb(4, 155, 79);max-width:700px;text-align:center;margin:auto;">
-
-
-
-
     <!-- javascript -->
     <script type="text/javascript">
         //getting team name
         $(document).ready(function () {
-            var $jstimer = document.querySelector(".timer");
-            var $jstimerValue = document.querySelector(".jstimerValue");
-            //instantly display on screen
+            var $jsTeam1 = document.querySelector(".team1");
+            var $jsTeam2 = document.querySelector(".team2");
 
-            $jstimer.addEventListener(
+            var $jsTeamAValue = document.querySelector(".jsTeamAValue");
+            var $jsTeamBValue = document.querySelector(".jsTeamBValue");
+
+            //instantly display on screen
+            $jsTeam1.addEventListener(
                 "input",
                 function (event) {
-                    $jstimerValue.innerHTML = $jstimer.value;
+                    $jsTeamAValue.innerHTML = $jsTeam1.value;
                 },
                 false
             );
+            $jsTeam2.addEventListener(
+                "input",
+                function (event) {
+                    $jsTeamBValue.innerHTML = $jsTeam2.value;
+                },
+                false
+            );
+            btnStart.addEventListener("click", function () {
+                step();
+                total_time = setInterval(step, 1000);
 
+            });
+            btnClear.addEventListener("click", function () {
+                seconds = -1;
+                total_time = 0;
+                document.getElementById("myText").innerHTML = "0:0";
+            });
+            //clicks will instantly sent data to signage player
+            //format are: server,email,password,station id,receive event name,return value
+            $("#btnADDTEAM_A").click(function () {
+                sendCommand(
+                    "galaxy.signage.me",
+                    "support@scotwell",
+                    "Scotwell123",
+                    "4",
+                    "addA",
+                    "1"
+                );
+            });
+            $("#btnSUBTEAM_A").click(function () {
+                sendCommand(
+                    "galaxy.signage.me",
+                    "support@scotwell",
+                    "Scotwell123",
+                    "4",
+                    "subA",
+                    "1"
+                );
+            });
+            $("#btnADDTEAM_B").click(function () {
+                sendCommand(
+                    "galaxy.signage.me",
+                    "support@scotwell",
+                    "Scotwell123",
+                    "4",
+                    "addB",
+                    "1"
+                );
+            });
+            $("#btnSUBTEAM_B").click(function () {
+                sendCommand(
+                    "galaxy.signage.me",
+                    "support@scotwell",
+                    "Scotwell123",
+                    "4",
+                    "subB",
+                    "1"
+                );
+            });
+            $("#btnREFRESH").click(function () {
+                sendCommand(
+                    "galaxy.signage.me",
+                    "support@scotwell",
+                    "Scotwell123",
+                    "4",
+                    "title_rec",
+                    document.INFO_INPUT.title.value
+                );
+                sendCommand(
+                    "galaxy.signage.me",
+                    "support@scotwell",
+                    "Scotwell123",
+                    "4",
+                    "special_rec",
+                    document.INFO_INPUT.special.value
+                );
+                sendCommand(
+                    "galaxy.signage.me",
+                    "support@scotwell",
+                    "Scotwell123",
+                    "4",
+                    "team1_rec",
+                    document.INFO_INPUT.team1_name.value
+                );
+                sendCommand(
+                    "galaxy.signage.me",
+                    "support@scotwell",
+                    "Scotwell123",
+                    "4",
+                    "team2_rec",
+                    document.INFO_INPUT.team2_name.value
+                );
 
+            });
         });
 
         /////timer
@@ -43,12 +134,9 @@
         var drift_history = [];
         var drift_history_samples = 10;
         var drift_correction = 0;
-        var seconds = 0,
+        var seconds = -1,
             minutes = 0,
             total_time = 0;
-        var start = document.getElementById('start'),
-            stop = document.getElementById('stop'),
-            clear = document.getElementById('clear');
 
         function calc_drift(arr) {
             // Calculate drift correction.
@@ -70,10 +158,13 @@
 
         function step() {
             var dt = Date.now() - expected; // the drift (positive for overshooting)
+
+
             if (dt > interval) {
                 // something really bad happened. Maybe the browser (tab) was inactive?
                 // possibly special handling to avoid futile "catch up" run
             }
+
             /////////////////////////////////////////////////////
             // do what is to be done
             seconds++;
@@ -81,7 +172,7 @@
                 seconds = 0;
                 minutes++;
             }
-            total_time =(minutes + ":" + seconds);
+            total_time = (minutes + ":" + seconds);
             document.getElementById("myText").innerHTML = total_time;
             sendCommand(
                 "galaxy.signage.me",
@@ -89,9 +180,11 @@
                 "Scotwell123",
                 "4",
                 "timer_rec",
-                document.step.minutes.value
+                document.step.total_time.value
             );
+
             /////////////////////////////////////////////////////
+
             // don't update the history for exceptionally large values
             if (dt <= interval) {
                 // sample drift amount to history after removing current correction
@@ -114,23 +207,131 @@
         }
     </script>
 
-
-
-
     <body>
-        <title>timer</title>
-        <h1>timer</h1>
-        <button id="btnREFRESH" style="width:80px;height:30" >refresh</button>
-        <button id="start" onclick="setInterval(step,1000)">START</button>
-        <button id="stop">STOP</button>
-        <button id="clear">RESET</button>
+        <title>Controller</title>
+        <h1>Scotwell</h1>
+        <!-- user input form -->
+        <FORM NAME="INFO_INPUT" style="text-align: center;">
+            Title:<input type="text" name="title" placeholder="Event Name" /><br />
+            Special:<input type="text" name="special" placeholder="Special Message" /><br />
+            TEAM 1:<input class="team1" type="text" name="team1_name" placeholder="Team 1 Name" /><br />
+            TEAM 2:<input class="team2" type="text" name="team2_name" placeholder="Team 2 Name" /><br />
+        </FORM>
 
-        <span id="myText">0.0</span>
-        
 
 
-        
 
+        <button id="btnREFRESH" style="width:80px;height:30">refresh</button><br><br>
+
+        <button id="btnStart"
+            onClick="myText = setInterval(step, 1000); btnStart.disabled = true; btnStop.disabled = false;">START</button>
+        <button id="btnStop" onClick="clearInterval(myText); btnStart.disabled = false;">PAUSE</button>
+        <button id="btnClear"
+            onClick="clearInterval(myText) ; btnStop.disabled = true; btnStart.disabled = false;">RESET</button><br /><br /><br />
+
+        <span id="myText" class="bordered">0:0</span><br /><br />
+
+
+        <!-- table css editor -->
+        <style type="text/css">
+            .bordered {
+                font-family: Arial, sans-serif;
+                font-size: 30px;
+                font-weight: 900;
+                width: 200px;
+                height: 5px;
+                padding: 10px;
+                border: 10px double rgb(205, 50, 50);
+                border-radius: 8px;
+            }
+
+            .tg {
+                border-collapse: collapse;
+                border-spacing: 0;
+                margin: auto;
+            }
+
+            .tg td {
+                font-family: Arial, sans-serif;
+                font-size: 20px;
+                padding: 5px 5px;
+                border-style: solid;
+                border-width: 1px;
+                overflow: hidden;
+                word-break: normal;
+                border-color: rgb(0, 0, 0);
+            }
+
+            .tg th {
+                font-family: Arial, sans-serif;
+                font-size: 20px;
+                font-weight: normal;
+                padding: 10px;
+                border-style: solid;
+                border-width: 1px;
+                overflow: hidden;
+                word-break: normal;
+                border-color: black;
+            }
+
+            .tg .tg-iq9e {
+                font-size: 20px;
+                border-color: #ffffff;
+                text-align: center;
+            }
+
+            .tg .tg-1umq {
+                font-size: 40px;
+                border-color: #ffffff;
+                text-align: center;
+            }
+        </style>
+
+
+
+        <table class="tg">
+            <tr>
+                <th class="tg-iq9e">
+                    <h2><span class="jsTeamAValue">Team A</span></h2>
+                </th>
+                <th class="tg-iq9e">vs</th>
+                <th class="tg-iq9e">
+                    <h2><span class="jsTeamBValue">Team B</span></h2>
+                </th>
+            </tr>
+            <tr>
+                <td class="tg-1umq">
+                    <button id="btnADDTEAM_A" style="width:100px;height:60">
+                        +
+                    </button>
+                </td>
+                <td class="tg-iq9e"></td>
+                <td class="tg-1umq">
+                    <button id="btnADDTEAM_B" style="width:100px;height:60">
+                        +
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <!-- will add displaying current score function -->
+                <td class="tg-iq9e">c</td>
+                <td class="tg-iq9e"></td>
+                <td class="tg-iq9e">c</td>
+            </tr>
+            <tr>
+                <td class="tg-1umq">
+                    <button id="btnSUBTEAM_A" style="width:100px;height:60">
+                        -
+                    </button>
+                </td>
+                <td class="tg-iq9e"></td>
+                <td class="tg-1umq">
+                    <button id="btnSUBTEAM_B" style="width:100px;height:60">
+                        -
+                    </button>
+                </td>
+            </tr>
+        </table>
     </body>
 </div>
 
