@@ -14,20 +14,21 @@
 
 <div style="color:rgb(4, 155, 79);max-width:700px;text-align:center;margin:auto;">
     <!-- javascript -->
+
     <script type="text/javascript">
         var team1_score = 0;
         var team2_score = 0;
-
-        
+        var SID = "11";
+        var EMAIL = "support@scotwell";
+        var PASSWORD = "Scotwell123";
+        var i;
         $(document).ready(function () {
             var $jsTeam1 = document.querySelector(".team1");
             var $jsTeam2 = document.querySelector(".team2");
-
             var $jsTeamAValue = document.querySelector(".jsTeamAValue");
             var $jsTeamBValue = document.querySelector(".jsTeamBValue");
 
-            //clicks will instantly sent data to signage player
-            //format : server,email,password,station id,receive event name,return value
+            //instantly display on screen
             $jsTeam1.addEventListener(
                 "input",
                 function (event) {
@@ -43,9 +44,15 @@
                 false
             );
             btnStart.addEventListener("click", function () {
-                step();
-                total_time = setInterval(step, 1000);
+                //buffer();
+                i = setInterval(buffer().step, 1000);
             });
+            
+            btnStop.addEventListener("click", function () {
+                clearInterval(i);
+                //setInterval(buffer().step, 1000);
+            });
+
             btnClear.addEventListener("click", function () {
                 seconds = -1;
                 total_time = 0;
@@ -57,199 +64,190 @@
                 document.getElementById("team1_score").innerHTML = team1_score;
                 sendCommand(
                     "galaxy.signage.me",
-                    "support@scotwell",
-                    "Scotwell123",
-                    "4",
+                    EMAIL,
+                    PASSWORD,
+                    SID,
                     "scoreA_rec",
                     team1_score
                 );
             });
-
             btnADDTEAM_B.addEventListener("click", function () {
                 team2_score++;
                 document.getElementById("team2_score").innerHTML = team2_score;
                 sendCommand(
                     "galaxy.signage.me",
-                    "support@scotwell",
-                    "Scotwell123",
-                    "4",
+                    EMAIL,
+                    PASSWORD,
+                    SID,
                     "scoreB_rec",
                     team2_score
                 );
             });
-
             btnSUBTEAM_A.addEventListener("click", function () {
                 team1_score--;
                 document.getElementById("team1_score").innerHTML = team1_score;
                 sendCommand(
                     "galaxy.signage.me",
-                    "support@scotwell",
-                    "Scotwell123",
-                    "4",
+                    EMAIL,
+                    PASSWORD,
+                    SID,
                     "scoreA_rec",
                     team1_score
                 );
-
             });
             btnSUBTEAM_B.addEventListener("click", function () {
                 team2_score--;
                 document.getElementById("team2_score").innerHTML = team2_score;
                 sendCommand(
                     "galaxy.signage.me",
-                    "support@scotwell",
-                    "Scotwell123",
-                    "4",
+                    EMAIL,
+                    PASSWORD,
+                    SID,
                     "scoreB_rec",
                     team2_score
                 );
             });
 
-
+            //clicks will instantly sent data to signage player
+            //format : server,email,password,station id,receive event name,return value
             $("#btnREFRESH").click(function () {
                 sendCommand(
                     "galaxy.signage.me",
-                    "support@scotwell",
-                    "Scotwell123",
-                    "4",
+                    EMAIL,
+                    PASSWORD,
+                    SID,
                     "title_rec",
                     document.INFO_INPUT.title.value
                 );
                 sendCommand(
                     "galaxy.signage.me",
-                    "support@scotwell",
-                    "Scotwell123",
-                    "4",
+                    EMAIL,
+                    PASSWORD,
+                    SID,
                     "special_rec",
                     document.INFO_INPUT.special.value
                 );
                 sendCommand(
                     "galaxy.signage.me",
-                    "support@scotwell",
-                    "Scotwell123",
-                    "4",
+                    EMAIL,
+                    PASSWORD,
+                    SID,
                     "team1_rec",
                     document.INFO_INPUT.team1_name.value
                 );
                 sendCommand(
                     "galaxy.signage.me",
-                    "support@scotwell",
-                    "Scotwell123",
-                    "4",
+                    EMAIL,
+                    PASSWORD,
+                    SID,
                     "team2_rec",
                     document.INFO_INPUT.team2_name.value
                 );
-
-            });
-
-            $("#btnHalftime").click(function () {
-                var ht="halftime";
-                sendCommand(
-                    "galaxy.signage.me",
-                    "support@scotwell",
-                    "Scotwell123",
-                    "4",
-                    "halftime_rec",
-                    ht.value
-                );
-
             });
         });
 
-        /////timer
-        var interval = 1000; // ms
-        var expected = Date.now() + interval;
-
-        var drift_history = [];
-        var drift_history_samples = 10;
-        var drift_correction = 0;
-        var seconds = -1,
-            minutes = 0,
-            total_time = 0;
-
-        function calc_drift(arr) {
-            // Calculate drift correction.
-
-            var values = arr.concat(); // copy array so it isn't mutated
-
-            values.sort(function (a, b) {
-                return a - b;
-            });
-            if (values.length === 0) return 0;
-            var half = Math.floor(values.length / 2);
-            if (values.length % 2) return values[half];
-            var median = (values[half - 1] + values[half]) / 2.0;
-
-            return median;
-        }
-
-        setTimeout(step, interval);
-
-        function step() {
-            var dt = Date.now() - expected; // the drift (positive for overshooting)
 
 
-            if (dt > interval) {
-                // something really bad happened. Maybe the browser (tab) was inactive?
-                // possibly special handling to avoid futile "catch up" run
+
+        function buffer() {
+
+
+
+
+
+
+            /////timer
+            var interval = 1000; // ms
+            var expected = Date.now() + interval;
+
+            var drift_history = [];
+            var drift_history_samples = 10;
+            var drift_correction = 0;
+            var seconds = 0,
+                minutes = 0,
+                total_time = 0;
+
+            function calc_drift(arr) {
+                // Calculate drift correction.
+
+                var values = arr.concat(); // copy array so it isn't mutated
+
+                values.sort(function (a, b) {
+                    return a - b;
+                });
+                if (values.length === 0) return 0;
+                var half = Math.floor(values.length / 2);
+                if (values.length % 2) return values[half];
+                var median = (values[half - 1] + values[half]) / 2.0;
+
+                return median;
             }
 
-            /////////////////////////////////////////////////////
-            // do what is to be done
-            seconds++;
-            if (seconds >= 60) {
-                seconds = 0;
-                minutes++;
-            }
-            total_time = (minutes + ":" + seconds);
-            document.getElementById("count").innerHTML = total_time;
-            sendCommand(
-                "galaxy.signage.me",
-                "support@scotwell",
-                "Scotwell123",
-                "4",
-                "minutes_rec",
-                minutes
-            );
+            setTimeout(step, interval);
 
-            sendCommand(
-                "galaxy.signage.me",
-                "support@scotwell",
-                "Scotwell123",
-                "4",
-                "seconds_rec",
-                seconds
-            );
+            function step() {
+                var dt = Date.now() - expected; // the drift (positive for overshooting)
 
-            /////////////////////////////////////////////////////
 
-            // don't update the history for exceptionally large values
-            if (dt <= interval) {
-                // sample drift amount to history after removing current correction
-                // (add to remove because the correction is applied by subtraction)
-                drift_history.push(dt + drift_correction);
-
-                // predict new drift correction
-                drift_correction = calc_drift(drift_history);
-
-                // cap and refresh samples
-                if (drift_history.length >= drift_history_samples) {
-                    drift_history.shift();
+                if (dt > interval) {
+                    // something really bad happened. Maybe the browser (tab) was inactive?
+                    // possibly special handling to avoid futile "catch up" run
                 }
+
+                /////////////////////////////////////////////////////
+                // do what is to be done
+                seconds++;
+                if (seconds >= 60) {
+                    seconds = 0;
+                    minutes++;
+                }
+
+                total_time = (minutes + ":" + seconds);
+
+                document.getElementById("count").innerHTML = (minutes + ":" + seconds);
+                sendCommand(
+                    "galaxy.signage.me",
+                    EMAIL,
+                    PASSWORD,
+                    SID,
+                    "minutes_rec",
+                    total_time
+                );
+
+                /////////////////////////////////////////////////////
+
+                // don't update the history for exceptionally large values
+                if (dt <= interval) {
+                    // sample drift amount to history after removing current correction
+                    // (add to remove because the correction is applied by subtraction)
+                    drift_history.push(dt + drift_correction);
+
+                    // predict new drift correction
+                    drift_correction = calc_drift(drift_history);
+
+                    // cap and refresh samples
+                    if (drift_history.length >= drift_history_samples) {
+                        drift_history.shift();
+                    }
+                }
+
+                expected += interval;
+                // take into account drift with prediction
+                setTimeout(step, Math.max(0, interval - dt - drift_correction));
             }
-
-            expected += interval;
-            // take into account drift with prediction
-            setTimeout(step, Math.max(0, interval - dt - drift_correction));
             /////end of timer
-
-
-
-
-
         }
     </script>
 
+
+
+
+
+
+
+
     <body>
+
         <title>Controller</title>
         <h1>Scotwell</h1>
         <!-- user input form -->
@@ -262,17 +260,13 @@
                 TEAM 2:<input class="team2" type="text" name="team2_name" placeholder="Team 2 Name" /><br /><br />
                 <button id="btnREFRESH" style="width:80px;height:30" type="button">Upload</button><br />
             </fieldset>
-
         </FORM>
 
 
-
-        <button id="btnStart" type="button" onClick="count = setInterval(step, 1000); btnStart.disabled = true; btnStop.disabled = false;">START</button>
-        <button id="btnStop" type="button" onClick="clearInterval(count); btnStart.disabled = false;">PAUSE</button>
-        <button id="btnClear" type="button"
-            onClick="clearInterval(count) ; btnStop.disabled = true; btnStart.disabled = false;">RESET</button><br /><br /><br />
-
-            <button id="btnHalftime" type="button" onClick="clearInterval(count); btnStart.disabled = false;">HALFTIME</button>
+        <button id="btnStart" onClick=" btnStart.disabled = true; btnStop.disabled = false;">START</button>
+        <button id="btnStop" onClick="  btnStart.disabled = false;">PAUSE</button>
+        <button id="btnClear"
+            onClick=" btnStop.disabled = true; btnStart.disabled = false;">RESET</button><br /><br /><br />
 
         <span id="count" class="bordered">0:0</span><br /><br />
 
@@ -286,7 +280,6 @@
                 width: 250px;
                 line-height: 30px;
                 margin: auto;
-                border-radius: 8px;
             }
 
             .bordered {
@@ -327,12 +320,12 @@
                 border-width: 1px;
                 overflow: hidden;
                 word-break: normal;
-                border-color: black;
+                border-color: rgb(0, 0, 0);
             }
 
             .tg .tg-iq9e {
                 font-size: 20px;
-                border-color: #ffffff;
+                border-color: rgba(0, 0, 0, 0);
                 text-align: center;
             }
         </style>
