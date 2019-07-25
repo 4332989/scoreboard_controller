@@ -16,7 +16,7 @@
     <!-- javascript -->
 
     <script type="text/javascript">
-//signage player details
+        //signage player details
         var SID = "4";
         var EMAIL = "support@scotwell";
         var PASSWORD = "Scotwell123";
@@ -25,7 +25,9 @@
         var team2_score = 0;
         var seconds = 0,
             minutes = 0;
-           
+            
+
+        var i ;
 
 
         $(document).ready(function () {
@@ -33,7 +35,6 @@
             var $jsTeam2 = document.querySelector(".team2");
             var $jsTeamAValue = document.querySelector(".jsTeamAValue");
             var $jsTeamBValue = document.querySelector(".jsTeamBValue");
-
 
             $jsTeam1.addEventListener(
                 "input",
@@ -49,23 +50,53 @@
                 },
                 false
             );
-
-
             btnStart.addEventListener("click", function () {
 
                 ticker.interval = 1000;
                 ticker.start();
             });
-
             btnStop.addEventListener("click", function () {
-
                 ticker.stop();
-
             });
             btnClear.addEventListener("click", function () {
                 seconds = -1;
                 total_time = 0;
                 document.getElementById("count").innerHTML = "0:0";
+            });
+            btnfulltime.addEventListener("click", function () {
+                document.getElementById("halftime").innerHTML = "";
+                sendCommand(
+                    "galaxy.signage.me",
+                    EMAIL,
+                    PASSWORD,
+                    SID,
+                    "halftime_rec",
+                    ""
+                );
+            });
+
+            btnhalftime.addEventListener("click", function () {
+                document.getElementById("halftime").innerHTML = "halftime";
+                
+                sendCommand(
+                    "galaxy.signage.me",
+                    EMAIL,
+                    PASSWORD,
+                    SID,
+                    "halftime_rec",
+                    "HALFTIME"
+                );
+            });
+            btnfulltime.addEventListener("click", function () {
+                document.getElementById("halftime").innerHTML = "fulltime";
+                sendCommand(
+                    "galaxy.signage.me",
+                    EMAIL,
+                    PASSWORD,
+                    SID,
+                    "halftime_rec",
+                    "FULLTIME"
+                );
             });
 
             btnADDTEAM_A.addEventListener("click", function () {
@@ -155,18 +186,14 @@
             });
         });
 
-
-
         function AdjustingInterval(workFunc, interval, errorFunc) {
             var that = this;
             var expected, timeout;
             this.interval = interval;
-
             this.start = function () {
                 expected = Date.now() + this.interval;
                 timeout = setTimeout(step, this.interval);
             }
-
             this.stop = function () {
                 clearTimeout(timeout);
             }
@@ -177,7 +204,6 @@
                     // You could have some default stuff here too...
                     if (errorFunc) errorFunc();
                 }
-
                 workFunc();
                 expected += that.interval;
                 timeout = setTimeout(step, Math.max(0, that.interval - drift));
@@ -193,6 +219,7 @@
                 minutes++;
             }
             document.getElementById("count").innerHTML = (minutes + ":" + seconds);
+            
             sendCommand(
                 "galaxy.signage.me",
                 EMAIL,
@@ -243,15 +270,13 @@
             </fieldset>
         </FORM>
 
-
         <button id="btnStart" onClick=" btnStart.disabled = true; btnStop.disabled = false;">START</button>
         <button id="btnStop" onClick="  btnStart.disabled = false;">PAUSE</button>
-        <button id="btnClear"
-            onClick=" btnStop.disabled = true; btnStart.disabled = false;">RESET</button><br /><br /><br />
-
+        <button id="btnClear" onClick=" btnStop.disabled = true; btnStart.disabled = false;">RESET</button><br /><br />
+        <button id="btnnotime">CLEARTIME</button>
         <button id="btnhalftime">HALFTIME</button>
-        <button id="btnfulltime">FULLTIME</button>
-
+        <button id="btnfulltime">FULLTIME</button><br /><br /><br />
+        <span id="halftime"> </span>
         <span id="count" class="bordered">0:0</span><br /><br />
 
 
@@ -271,8 +296,8 @@
                 font-size: 30px;
                 font-weight: 900;
                 width: 200px;
-                height: 5px;
-                padding: 10px;
+                height: 1px;
+                padding: 5px;
                 border: 10px double rgb(205, 50, 50);
                 border-radius: 8px;
             }
@@ -285,9 +310,9 @@
 
             .tg td {
                 font-family: Arial, sans-serif;
-                font-size: 30px;
+
                 font-weight: 900;
-                padding: 5px 5px;
+                padding: 1px;
                 border-style: solid;
                 border-width: 1px;
                 overflow: hidden;
@@ -297,7 +322,7 @@
 
             .tg th {
                 font-family: Arial, sans-serif;
-                font-size: 30px;
+
                 font-weight: 900;
                 padding: 10px;
                 border-style: solid;
