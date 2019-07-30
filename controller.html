@@ -1,8 +1,8 @@
 <!-- 
     author: GOH
-    version: x.x.x
+    version: 4.12.1 ver.DEMO
     VCS: git    
-    modified: 1103 9/7/19
+    modified: 31/7/19
 -->
 <html>
 
@@ -11,10 +11,9 @@
     <script type="text/javascript" src="https://ajax.microsoft.com/ajax/jQuery/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="http://signage.me/demo/sendCommand.js"></script>
 </head>
-
 <div style="color:rgb(4, 155, 79);max-width:700px;text-align:center;margin:auto;">
-    <!-- javascript -->
 
+    <!-- javascript -->
     <script type="text/javascript">
         //signage player details
         var SID = "4";
@@ -25,17 +24,13 @@
         var team2_score = 0;
         var seconds = 0,
             minutes = 0;
-            
-
-        var i ;
-
 
         $(document).ready(function () {
             var $jsTeam1 = document.querySelector(".team1");
             var $jsTeam2 = document.querySelector(".team2");
             var $jsTeamAValue = document.querySelector(".jsTeamAValue");
             var $jsTeamBValue = document.querySelector(".jsTeamBValue");
-
+            //listens to changes at teamname boxes
             $jsTeam1.addEventListener(
                 "input",
                 function (event) {
@@ -50,8 +45,8 @@
                 },
                 false
             );
+            //timer control
             btnStart.addEventListener("click", function () {
-
                 ticker.interval = 1000;
                 ticker.start();
             });
@@ -63,7 +58,8 @@
                 total_time = 0;
                 document.getElementById("count").innerHTML = "0:0";
             });
-            btnfulltime.addEventListener("click", function () {
+            //period control-it will not change timer
+            btncleartime.addEventListener("click", function () {
                 document.getElementById("halftime").innerHTML = "";
                 sendCommand(
                     "galaxy.signage.me",
@@ -74,10 +70,8 @@
                     ""
                 );
             });
-
             btnhalftime.addEventListener("click", function () {
                 document.getElementById("halftime").innerHTML = "halftime";
-                
                 sendCommand(
                     "galaxy.signage.me",
                     EMAIL,
@@ -98,7 +92,7 @@
                     "FULLTIME"
                 );
             });
-
+            //calculation of score then send to player
             btnADDTEAM_A.addEventListener("click", function () {
                 team1_score++;
                 document.getElementById("team1_score").innerHTML = team1_score;
@@ -147,8 +141,7 @@
                     team2_score
                 );
             });
-
-            //clicks will instantly sent data to signage player
+            //clicks will sent form data to signage player
             //format : server,email,password,station id,receive event name,return value
             $("#btnREFRESH").click(function () {
                 sendCommand(
@@ -185,7 +178,7 @@
                 );
             });
         });
-
+        //timer function
         function AdjustingInterval(workFunc, interval, errorFunc) {
             var that = this;
             var expected, timeout;
@@ -201,7 +194,6 @@
             function step() {
                 var drift = Date.now() - expected;
                 if (drift > that.interval) {
-                    // You could have some default stuff here too...
                     if (errorFunc) errorFunc();
                 }
                 workFunc();
@@ -209,17 +201,15 @@
                 timeout = setTimeout(step, Math.max(0, that.interval - drift));
             }
         }
-
-        // Define the work to be done
+        // ticking of seconds
         var doWork = function () {
-
             seconds++;
             if (seconds >= 60) {
                 seconds = 0;
                 minutes++;
             }
+            //print in html
             document.getElementById("count").innerHTML = (minutes + ":" + seconds);
-            
             sendCommand(
                 "galaxy.signage.me",
                 EMAIL,
@@ -237,25 +227,15 @@
                 minutes
             );
         };
-
-        // Define what to do if something goes wrong
+        // something goes wrong
         var doError = function () {
             document.getElementById("count").innerHTML = "Loading";
         };
-
         // (The third argument is optional)
         var ticker = new AdjustingInterval(doWork, 1000, doError);
     </script>
 
-
-
-
-
-
-
-
     <body>
-
         <title>Controller</title>
         <h1>Scotwell</h1>
         <!-- user input form -->
@@ -269,17 +249,15 @@
                 <button id="btnREFRESH" style="width:80px;height:30" type="button">Upload</button><br />
             </fieldset>
         </FORM>
-
+        <!-- various buttons -->
         <button id="btnStart" onClick=" btnStart.disabled = true; btnStop.disabled = false;">START</button>
         <button id="btnStop" onClick="  btnStart.disabled = false;">PAUSE</button>
         <button id="btnClear" onClick=" btnStop.disabled = true; btnStart.disabled = false;">RESET</button><br /><br />
-        <button id="btnnotime">CLEARTIME</button>
+        <button id="btncleartime">CLEARTIME</button>
         <button id="btnhalftime">HALFTIME</button>
         <button id="btnfulltime">FULLTIME</button><br /><br /><br />
         <span id="halftime"> </span>
         <span id="count" class="bordered">0:0</span><br /><br />
-
-
         <!-- table css editor -->
         <style type="text/css">
             fieldset {
@@ -338,9 +316,7 @@
                 text-align: center;
             }
         </style>
-
-
-
+        <!-- table format -->
         <table class="tg">
             <tr>
                 <th class="tg-iq9e">
