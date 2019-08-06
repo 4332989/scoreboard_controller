@@ -11,7 +11,7 @@
     <script type="text/javascript" src="https://ajax.microsoft.com/ajax/jQuery/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="http://signage.me/demo/sendCommand.js"></script>
 </head>
-<div style="color:rgb(4, 155, 79);max-width:700px;text-align:center;margin:auto;">
+<div style="color:rgb(4, 155, 79);max-width:2000px;text-align:center;margin:auto;">
 
     <!-- javascript -->
     <script type="text/javascript">
@@ -24,7 +24,13 @@
         var team2_score = 0;
         var seconds = 0,
             minutes = 0;
-
+        var total_time;
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
         $(document).ready(function () {
             var $jsTeam1 = document.querySelector(".team1");
             var $jsTeam2 = document.querySelector(".team2");
@@ -54,20 +60,37 @@
                 ticker.stop();
             });
             btnClear.addEventListener("click", function () {
-                seconds = -1;
-                total_time = 0;
-                document.getElementById("count").innerHTML = "0:0";
+                seconds = "0" + 0;
+                minutes = "0" + 0;
+
+                document.getElementById("count").innerHTML = "00:00";
+                sendCommand(
+                    "galaxy.signage.me",
+                    EMAIL,
+                    PASSWORD,
+                    SID,
+                    "seconds_rec",
+                    seconds
+                );
+                sendCommand(
+                    "galaxy.signage.me",
+                    EMAIL,
+                    PASSWORD,
+                    SID,
+                    "minutes_rec",
+                    minutes
+                );
             });
             //period control-it will not change timer
             btncleartime.addEventListener("click", function () {
-                document.getElementById("halftime").innerHTML = "";
+                document.getElementById("halftime").innerHTML = "VS";
                 sendCommand(
                     "galaxy.signage.me",
                     EMAIL,
                     PASSWORD,
                     SID,
                     "halftime_rec",
-                    ""
+                    "VS"
                 );
             });
             btnhalftime.addEventListener("click", function () {
@@ -204,12 +227,21 @@
         // ticking of seconds
         var doWork = function () {
             seconds++;
+
             if (seconds >= 60) {
                 seconds = 0;
                 minutes++;
+                if (minutes < 10) {
+                    minutes = "0" + minutes;
+                }
             }
+            if (seconds < 10) {
+                seconds = "0" + seconds;
+            }
+            total_time = (minutes + ":" + seconds);
+
             //print in html
-            document.getElementById("count").innerHTML = (minutes + ":" + seconds);
+            document.getElementById("count").innerHTML = total_time;
             sendCommand(
                 "galaxy.signage.me",
                 EMAIL,
@@ -226,12 +258,43 @@
                 "minutes_rec",
                 minutes
             );
+            sendCommand(
+                "galaxy.signage.me",
+                EMAIL,
+                PASSWORD,
+                SID,
+                "team1_rec",
+                document.INFO_INPUT.team1_name.value
+            );
+            sendCommand(
+                "galaxy.signage.me",
+                EMAIL,
+                PASSWORD,
+                SID,
+                "team2_rec",
+                document.INFO_INPUT.team2_name.value);
+            sendCommand(
+                "galaxy.signage.me",
+                EMAIL,
+                PASSWORD,
+                SID,
+                "scoreA_rec",
+                team1_score
+            );
+            sendCommand(
+                "galaxy.signage.me",
+                EMAIL,
+                PASSWORD,
+                SID,
+                "scoreB_rec",
+                team2_score
+            );
         };
         // something goes wrong
         var doError = function () {
             document.getElementById("count").innerHTML = "Loading";
         };
-        // (The third argument is optional)
+        // function param
         var ticker = new AdjustingInterval(doWork, 1000, doError);
     </script>
 
@@ -250,14 +313,24 @@
             </fieldset>
         </FORM>
         <!-- various buttons -->
-        <button id="btnStart" onClick=" btnStart.disabled = true; btnStop.disabled = false;">START</button>
-        <button id="btnStop" onClick="  btnStart.disabled = false;">PAUSE</button>
-        <button id="btnClear" onClick=" btnStop.disabled = true; btnStart.disabled = false;">RESET</button><br /><br />
-        <button id="btncleartime">CLEARTIME</button>
-        <button id="btnhalftime">HALFTIME</button>
-        <button id="btnfulltime">FULLTIME</button><br /><br /><br />
-        <span id="halftime"> </span>
-        <span id="count" class="bordered">0:0</span><br /><br />
+        <fieldset>
+            <legend>Timer</legend>
+            <button id="btnStart" onClick=" btnStart.disabled = true; btnStop.disabled = false;">START</button>
+            <button id="btnStop" onClick="  btnStart.disabled = false;">PAUSE</button>
+            <button id="btnClear">RESET</button><br /><br />
+            <span id="count" class="bordered">00:00</span><br /><br />
+        </fieldset>
+
+        <fieldset>
+            <legend>Period</legend>
+            <button id="btncleartime">CLEARTIME</button>
+            <button id="btnhalftime">HALFTIME</button>
+            <button id="btnfulltime">FULLTIME</button><br />
+            <span id="halftime">VS</span>
+        </fieldset>
+
+
+
         <!-- table css editor -->
         <style type="text/css">
             fieldset {
@@ -341,7 +414,7 @@
                 </td>
             </tr>
             <tr>
-                <!-- will add displaying current score function -->
+                <!--  displaying current score function -->
                 <td class="tg-iq9e">
                     <h1> <span id="team1_score">0</span> </h1>
                 </td>
