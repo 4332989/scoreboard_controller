@@ -1,6 +1,6 @@
 <!-- 
     author: GOH
-    version: 4.12.1 ver.DEMO
+    version: x.xx ver.P
     VCS: git    
     modified: 31/7/19
 -->
@@ -10,238 +10,60 @@
     <!-- library -->
     <script type="text/javascript" src="https://ajax.microsoft.com/ajax/jQuery/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="http://signage.me/demo/sendCommand.js"></script>
+    <script type="text/javascript" src="http://galaxy.signage.me/Code/js/stations.js"></script>
 </head>
-<div style="color:rgb(4, 155, 79);max-width:2000px;text-align:center;margin:auto;">
 
-    <!-- javascript -->
-    <script type="text/javascript">
-        //signage player details
-        var SID = "4";
-        var EMAIL = "support@scotwell";
-        var PASSWORD = "Scotwell123";
-        //scoreboard setting
-        var team1_score = 0;
-        var team2_score = 0;
-        var seconds = 0,
-            minutes = 0;
-        var total_time;
-        if (seconds < 10) {
-            seconds = "0" + seconds;
-        }
-        if (minutes < 10) {
-            minutes = "0" + minutes;
-        }
-        $(document).ready(function () {
-            var $jsTeam1 = document.querySelector(".team1");
-            var $jsTeam2 = document.querySelector(".team2");
-            var $jsTeamAValue = document.querySelector(".jsTeamAValue");
-            var $jsTeamBValue = document.querySelector(".jsTeamBValue");
-            //listens to changes at teamname boxes
-            $jsTeam1.addEventListener(
-                "input",
-                function (event) {
-                    $jsTeamAValue.innerHTML = $jsTeam1.value;
-                },
-                false
-            );
-            $jsTeam2.addEventListener(
-                "input",
-                function (event) {
-                    $jsTeamBValue.innerHTML = $jsTeam2.value;
-                },
-                false
-            );
-            //timer control
-            btnStart.addEventListener("click", function () {
-                ticker.interval = 1000;
-                ticker.start();
-            });
-            btnStop.addEventListener("click", function () {
-                ticker.stop();
-            });
-            btnClear.addEventListener("click", function () {
-                seconds = "0" + 0;
-                minutes = "0" + 0;
 
-                document.getElementById("count").innerHTML = "00:00";
-                sendCommand(
-                    "galaxy.signage.me",
-                    EMAIL,
-                    PASSWORD,
-                    SID,
-                    "seconds_rec",
-                    seconds
-                );
-                sendCommand(
-                    "galaxy.signage.me",
-                    EMAIL,
-                    PASSWORD,
-                    SID,
-                    "minutes_rec",
-                    minutes
-                );
-            });
-            //period control-it will not change timer
-            btncleartime.addEventListener("click", function () {
-                document.getElementById("halftime").innerHTML = "VS";
-                sendCommand(
-                    "galaxy.signage.me",
-                    EMAIL,
-                    PASSWORD,
-                    SID,
-                    "halftime_rec",
-                    "VS"
-                );
-            });
-            btnhalftime.addEventListener("click", function () {
-                document.getElementById("halftime").innerHTML = "halftime";
-                sendCommand(
-                    "galaxy.signage.me",
-                    EMAIL,
-                    PASSWORD,
-                    SID,
-                    "halftime_rec",
-                    "HALFTIME"
-                );
-            });
-            btnfulltime.addEventListener("click", function () {
-                document.getElementById("halftime").innerHTML = "fulltime";
-                sendCommand(
-                    "galaxy.signage.me",
-                    EMAIL,
-                    PASSWORD,
-                    SID,
-                    "halftime_rec",
-                    "FULLTIME"
-                );
-            });
-            //calculation of score then send to player
-            btnADDTEAM_A.addEventListener("click", function () {
-                team1_score++;
-                document.getElementById("team1_score").innerHTML = team1_score;
-                sendCommand(
-                    "galaxy.signage.me",
-                    EMAIL,
-                    PASSWORD,
-                    SID,
-                    "scoreA_rec",
-                    team1_score
-                );
-            });
-            btnADDTEAM_B.addEventListener("click", function () {
-                team2_score++;
-                document.getElementById("team2_score").innerHTML = team2_score;
-                sendCommand(
-                    "galaxy.signage.me",
-                    EMAIL,
-                    PASSWORD,
-                    SID,
-                    "scoreB_rec",
-                    team2_score
-                );
-            });
-            btnSUBTEAM_A.addEventListener("click", function () {
-                team1_score--;
-                document.getElementById("team1_score").innerHTML = team1_score;
-                sendCommand(
-                    "galaxy.signage.me",
-                    EMAIL,
-                    PASSWORD,
-                    SID,
-                    "scoreA_rec",
-                    team1_score
-                );
-            });
-            btnSUBTEAM_B.addEventListener("click", function () {
-                team2_score--;
-                document.getElementById("team2_score").innerHTML = team2_score;
-                sendCommand(
-                    "galaxy.signage.me",
-                    EMAIL,
-                    PASSWORD,
-                    SID,
-                    "scoreB_rec",
-                    team2_score
-                );
-            });
-            //clicks will sent form data to signage player
-            //format : server,email,password,station id,receive event name,return value
-            $("#btnREFRESH").click(function () {
-                sendCommand(
-                    "galaxy.signage.me",
-                    EMAIL,
-                    PASSWORD,
-                    SID,
-                    "title_rec",
-                    document.INFO_INPUT.title.value
-                );
-                sendCommand(
-                    "galaxy.signage.me",
-                    EMAIL,
-                    PASSWORD,
-                    SID,
-                    "special_rec",
-                    document.INFO_INPUT.special.value
-                );
-                sendCommand(
-                    "galaxy.signage.me",
-                    EMAIL,
-                    PASSWORD,
-                    SID,
-                    "team1_rec",
-                    document.INFO_INPUT.team1_name.value
-                );
-                sendCommand(
-                    "galaxy.signage.me",
-                    EMAIL,
-                    PASSWORD,
-                    SID,
-                    "team2_rec",
-                    document.INFO_INPUT.team2_name.value
-                );
-            });
+<!-- javascript -->
+<script type="text/javascript">
+    //signage player details
+    var SID = "16";
+    var EMAIL = "support@scotwell";
+    var PASSWORD = "Scotwell123";
+    //scoreboard setting
+    var team1_score = 0;
+    var team2_score = 0;
+    var seconds = 0,
+        minutes = 0;
+    var total_time;
+    if (seconds < 10) {
+        seconds = "0" + seconds;
+    }
+    if (minutes < 10) {
+        minutes = "0" + minutes;
+    }
+    $(document).ready(function () {
+        var $jsTeam1 = document.querySelector(".team1");
+        var $jsTeam2 = document.querySelector(".team2");
+        var $jsTeamAValue = document.querySelector(".jsTeamAValue");
+        var $jsTeamBValue = document.querySelector(".jsTeamBValue");
+        //listens to changes at teamname boxes
+        $jsTeam1.addEventListener(
+            "input",
+            function (event) {
+                $jsTeamAValue.innerHTML = $jsTeam1.value;
+            },
+            false
+        );
+        $jsTeam2.addEventListener(
+            "input",
+            function (event) {
+                $jsTeamBValue.innerHTML = $jsTeam2.value;
+            },
+            false
+        );
+        //timer control
+        btnStart.addEventListener("click", function () {
+            ticker.interval = 1000;
+            ticker.start();
         });
-        //timer function
-        function AdjustingInterval(workFunc, interval, errorFunc) {
-            var that = this;
-            var expected, timeout;
-            this.interval = interval;
-            this.start = function () {
-                expected = Date.now() + this.interval;
-                timeout = setTimeout(step, this.interval);
-            }
-            this.stop = function () {
-                clearTimeout(timeout);
-            }
-
-            function step() {
-                var drift = Date.now() - expected;
-                if (drift > that.interval) {
-                    if (errorFunc) errorFunc();
-                }
-                workFunc();
-                expected += that.interval;
-                timeout = setTimeout(step, Math.max(0, that.interval - drift));
-            }
-        }
-        // ticking of seconds
-        var doWork = function () {
-            seconds++;
-
-            if (seconds >= 60) {
-                seconds = 0;
-                minutes++;
-                if (minutes < 10) {
-                    minutes = "0" + minutes;
-                }
-            }
-            if (seconds < 10) {
-                seconds = "0" + seconds;
-            }
-            total_time = (minutes + ":" + seconds);
-
-            //print in html
-            document.getElementById("count").innerHTML = total_time;
+        btnStop.addEventListener("click", function () {
+            ticker.stop();
+        });
+        btnClear.addEventListener("click", function () {
+            seconds = "0" + 0;
+            minutes = "0" + 0;
+            document.getElementById("count").innerHTML = "00:00";
             sendCommand(
                 "galaxy.signage.me",
                 EMAIL,
@@ -258,6 +80,156 @@
                 "minutes_rec",
                 minutes
             );
+        });
+        //period control-it will not change timer
+        btncleartime.addEventListener("click", function () {
+            document.getElementById("halftime").innerHTML = "VS";
+            sendCommand(
+                "galaxy.signage.me",
+                EMAIL,
+                PASSWORD,
+                SID,
+                "halftime_rec",
+                "VS"
+            );
+            sendCommand(
+                "galaxy.signage.me",
+                EMAIL,
+                PASSWORD,
+                SID,
+                "change_rec",
+                1
+            );
+        });
+        btnhalftime.addEventListener("click", function () {
+            document.getElementById("halftime").innerHTML = "halftime";
+            sendCommand(
+                "galaxy.signage.me",
+                EMAIL,
+                PASSWORD,
+                SID,
+                "halftime_rec",
+                "HALFTIME"
+            );
+        });
+        btnfulltime.addEventListener("click", function () {
+            document.getElementById("halftime").innerHTML = "fulltime";
+            sendCommand(
+                "galaxy.signage.me",
+                EMAIL,
+                PASSWORD,
+                SID,
+                "halftime_rec",
+                "FULLTIME"
+            );
+        });
+        //calculation of score then send to player
+        btnADDTEAM_A.addEventListener("click", function () {
+            team1_score++;
+            document.getElementById("team1_score").innerHTML = team1_score;
+            sendCommand(
+                "galaxy.signage.me",
+                EMAIL,
+                PASSWORD,
+                SID,
+                "scoreA_rec",
+                team1_score
+            );
+            sendCommand("galaxy.signage.me", EMAIL, PASSWORD, SID, "goal_rec");
+        });
+        btnADDTEAM_B.addEventListener("click", function () {
+            team2_score++;
+            document.getElementById("team2_score").innerHTML = team2_score;
+            sendCommand(
+                "galaxy.signage.me",
+                EMAIL,
+                PASSWORD,
+                SID,
+                "scoreB_rec",
+                team2_score
+            );
+            sendCommand("galaxy.signage.me", EMAIL, PASSWORD, SID, "goal_rec");
+        });
+        btnSUBTEAM_A.addEventListener("click", function () {
+            team1_score--;
+            document.getElementById("team1_score").innerHTML = team1_score;
+            sendCommand(
+                "galaxy.signage.me",
+                EMAIL,
+                PASSWORD,
+                SID,
+                "scoreA_rec",
+                team1_score
+            );
+            sendCommand("galaxy.signage.me", EMAIL, PASSWORD, SID, "boo_rec");
+        });
+        btnSUBTEAM_B.addEventListener("click", function () {
+            team2_score--;
+            document.getElementById("team2_score").innerHTML = team2_score;
+            sendCommand(
+                "galaxy.signage.me",
+                EMAIL,
+                PASSWORD,
+                SID,
+                "scoreB_rec",
+                team2_score
+            );
+            sendCommand("galaxy.signage.me", EMAIL, PASSWORD, SID, "boo_rec");
+        });
+        btngoal.addEventListener("click", function () {
+            sendCommand("galaxy.signage.me", EMAIL, PASSWORD, SID, "goal_rec");
+        });
+        btnnormal.addEventListener("click", function () {
+            sendCommand("galaxy.signage.me", EMAIL, PASSWORD, SID, "normal_rec");
+        });
+        btnfn1.addEventListener("click", function () {
+            sendCommand("galaxy.signage.me", EMAIL, PASSWORD, SID, "fn1_rec");
+        });
+        btnfn2.addEventListener("click", function () {
+            sendCommand("galaxy.signage.me", EMAIL, PASSWORD, SID, "fn2_rec");
+        });
+        btnreset.addEventListener("click", function () {
+            team1_score = 0;
+            team2_score = 0;
+            document.getElementById("team1_score").innerHTML = team1_score;
+            document.getElementById("team2_score").innerHTML = team2_score;
+            sendCommand(
+                "galaxy.signage.me",
+                EMAIL,
+                PASSWORD,
+                SID,
+                "scoreB_rec",
+                team1_score
+            );
+            sendCommand(
+                "galaxy.signage.me",
+                EMAIL,
+                PASSWORD,
+                SID,
+                "scoreB_rec",
+                team2_score
+            );
+
+        });
+        //clicks will sent form data to signage player
+        //format : server,email,password,station id,receive event name,return value
+        $("#btnREFRESH").click(function () {
+            sendCommand(
+                "galaxy.signage.me",
+                EMAIL,
+                PASSWORD,
+                SID,
+                "title_rec",
+                document.INFO_INPUT.title.value
+            );
+            sendCommand(
+                "galaxy.signage.me",
+                EMAIL,
+                PASSWORD,
+                SID,
+                "special_rec",
+                document.INFO_INPUT.special.value
+            );
             sendCommand(
                 "galaxy.signage.me",
                 EMAIL,
@@ -272,123 +244,262 @@
                 PASSWORD,
                 SID,
                 "team2_rec",
-                document.INFO_INPUT.team2_name.value);
-            sendCommand(
-                "galaxy.signage.me",
-                EMAIL,
-                PASSWORD,
-                SID,
-                "scoreA_rec",
-                team1_score
+                document.INFO_INPUT.team2_name.value
             );
-            sendCommand(
-                "galaxy.signage.me",
-                EMAIL,
-                PASSWORD,
-                SID,
-                "scoreB_rec",
-                team2_score
-            );
-        };
-        // something goes wrong
-        var doError = function () {
-            document.getElementById("count").innerHTML = "Loading";
-        };
-        // function param
-        var ticker = new AdjustingInterval(doWork, 1000, doError);
-    </script>
+        });
+    });
+    //timer function
+    function AdjustingInterval(workFunc, interval, errorFunc) {
+        var that = this;
+        var expected, timeout;
+        this.interval = interval;
+        this.start = function () {
+            expected = Date.now() + this.interval;
+            timeout = setTimeout(step, this.interval);
+        }
+        this.stop = function () {
+            clearTimeout(timeout);
+        }
+
+        function step() {
+            var drift = Date.now() - expected;
+            if (drift > that.interval) {
+                if (errorFunc) errorFunc();
+            }
+            workFunc();
+            expected += that.interval;
+            timeout = setTimeout(step, Math.max(0, that.interval - drift));
+        }
+    }
+    // ticking of seconds
+    var doWork = function () {
+        seconds++;
+
+        if (seconds >= 60) {
+            seconds = 0;
+            minutes++;
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+        }
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
+        total_time = (minutes + ":" + seconds);
+
+        //print in html
+        document.getElementById("count").innerHTML = total_time;
+        sendCommand(
+            "galaxy.signage.me",
+            EMAIL,
+            PASSWORD,
+            SID,
+            "seconds_rec",
+            seconds
+        );
+        sendCommand(
+            "galaxy.signage.me",
+            EMAIL,
+            PASSWORD,
+            SID,
+            "minutes_rec",
+            minutes
+        );
+
+        sendCommand(
+            "galaxy.signage.me",
+            EMAIL,
+            PASSWORD,
+            SID,
+            "team1_rec",
+            document.INFO_INPUT.team1_name.value
+        );
+        sendCommand(
+            "galaxy.signage.me",
+            EMAIL,
+            PASSWORD,
+            SID,
+            "team2_rec",
+            document.INFO_INPUT.team2_name.value);
+        sendCommand(
+            "galaxy.signage.me",
+            EMAIL,
+            PASSWORD,
+            SID,
+            "scoreA_rec",
+            team1_score
+        );
+        sendCommand(
+            "galaxy.signage.me",
+            EMAIL,
+            PASSWORD,
+            SID,
+            "scoreB_rec",
+            team2_score
+        );
+    };
+    // something goes wrong
+    var doError = function () {
+        document.getElementById("count").innerHTML = "Loading";
+    };
+    // function param
+    var ticker = new AdjustingInterval(doWork, 1000, doError);
+</script>
+<!-- table css editor -->
+<style type="text/css">
+    fieldset {
+        font-size: 20px;
+        font-weight: 700;
+        padding: 10px;
+        width: 250px;
+        color: rgb(0, 189, 85);
+        border-radius: 8px;
+
+    }
+
+    legend {
+        width: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    input {
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        width: 65%;
+        border: 0;
+        outline: 0;
+        background: transparent;
+
+        border-bottom: 1px solid rgba(0, 0, 0, 0.459);
+    }
+
+    .button {
+        background-color: rgb(34, 199, 40);
+        border: none;
+        color: white;
+        width: 100px;
+        text-align: center;
+        cursor: pointer;
+        font-size: 40px;
+        border-radius: 8px;
+    }
+
+    .bordered {
+        font-family: Arial, sans-serif;
+        font-size: 30px;
+        font-weight: 900;
+        width: 200px;
+        height: 1px;
+        padding: 5px;
+        border: 10px double rgb(205, 50, 50);
+        border-radius: 8px;
+
+    }
+
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 10;
+        margin: auto;
+        width: 500;
+
+    }
+
+    .tg td {
+        font-family: Arial, sans-serif;
+
+        font-weight: 900;
+        padding: 1px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: rgb(0, 0, 0);
+    }
+
+    .tg th {
+        font-family: Arial, sans-serif;
+
+        font-weight: 900;
+        padding: 10px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: rgb(0, 0, 0);
+    }
+
+    .tg .tg-iq9e {
+        font-size: 20px;
+        padding: 5px;
+        border-color: rgba(0, 0, 0, 0);
+        margin: auto;
+        text-align: center;
+    }
+</style>
+<div style="color:rgb(4, 155, 79);max-width:100%;text-align:center;margin:auto;">
 
     <body>
         <title>Controller</title>
         <h1>Scotwell</h1>
         <!-- user input form -->
-        <FORM NAME="INFO_INPUT" style="text-align: center;">
-            <fieldset>
-                <legend>Scoreboard Controller</legend>
-                Title:<input type="text" name="title" placeholder="Event Name" /><br />
-                Special:<input type="text" name="special" placeholder="Special Message" /><br />
-                TEAM 1:<input class="team1" type="text" name="team1_name" placeholder="Team 1 Name" /><br />
-                TEAM 2:<input class="team2" type="text" name="team2_name" placeholder="Team 2 Name" /><br /><br />
-                <button id="btnREFRESH" style="width:80px;height:30" type="button">Upload</button><br />
-            </fieldset>
-        </FORM>
-        <!-- various buttons -->
-        <fieldset>
-            <legend>Timer</legend>
-            <button id="btnStart" onClick=" btnStart.disabled = true; btnStop.disabled = false;">START</button>
-            <button id="btnStop" onClick="  btnStart.disabled = false;">PAUSE</button>
-            <button id="btnClear">RESET</button><br /><br />
-            <span id="count" class="bordered">00:00</span><br /><br />
-        </fieldset>
 
-        <fieldset>
-            <legend>Period</legend>
-            <button id="btncleartime">CLEARTIME</button>
-            <button id="btnhalftime">HALFTIME</button>
-            <button id="btnfulltime">FULLTIME</button><br />
-            <span id="halftime">VS</span>
-        </fieldset>
+        <table class="tg">
+            <tr>
+                <th class="tg-iq9e">
+                    <fieldset id="fieldinfo">
+                        <legend>Scoreboard Controller</legend>
+                        <FORM NAME="INFO_INPUT" style="text-align: center;"></FORM>
+                        Title:<input type="text" name="title" placeholder="Event Name" /><br />
+                        Special:<input type="text" name="special" placeholder="Special Message" /><br />
+                        TEAM 1:<input class="team1" type="text" name="team1_name" placeholder="Team 1 Name" /><br />
+                        TEAM 2:<input class="team2" type="text" name="team2_name"
+                            placeholder="Team 2 Name" /><br /><br />
+                        </FORM>
+                        <button id="btnREFRESH" style="width:80px;height:30" type="button">Upload</button><br />
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Content</legend>
+                        <button id="btnnormal" disabled
+                            onClick="  btnnormal.disabled = true;btnfn1.disabled = false;btnfn2.disabled = false;">Scoreboard</button>
+                        <button id="btnfn1"
+                            onClick="  btnfn1.disabled = true; btnnormal.disabled = false; btnfn2.disabled = false;">fn1</button>
+                        <button id="btnfn2"
+                            onClick="  btnfn2.disabled = true; btnnormal.disabled = false; btnfn1.disabled = false;">fn2</button><br />
+                        <span id="fn">scoreboard</span>
+                    </fieldset>
 
 
 
-        <!-- table css editor -->
-        <style type="text/css">
-            fieldset {
-                font-size: 20px;
-                font-weight: 700;
-                padding: 10px;
-                width: 250px;
-                line-height: 30px;
-                margin: auto;
-            }
+                </th>
 
-            .bordered {
-                font-family: Arial, sans-serif;
-                font-size: 30px;
-                font-weight: 900;
-                width: 200px;
-                height: 1px;
-                padding: 5px;
-                border: 10px double rgb(205, 50, 50);
-                border-radius: 8px;
-            }
+                <!-- various buttons -->
+                <th class="tg-iq9e">
+                    <fieldset>
+                        <legend>Timer</legend>
+                        <button id="btnStart"
+                            onClick=" btnStart.disabled = true; btnStop.disabled = false;">START</button>
+                        <button id="btnStop" onClick="  btnStart.disabled = false;">PAUSE</button>
+                        <button id="btnClear">RESET</button><br /><br />
+                        <span id="count" class="bordered">00:00</span><br /><br />
+                    </fieldset>
+                    <fieldset>
+                        <legend>Period</legend>
+                        <button id="btncleartime">CLEAR</button>
+                        <button id="btnhalftime">HALFTIME</button>
+                        <button id="btnfulltime">FULLTIME</button><br />
+                        <span id="halftime">VS</span>
+                    </fieldset>
+                </th>
+            </tr>
 
-            .tg {
-                border-collapse: collapse;
-                border-spacing: 10;
-                margin: auto;
-            }
+        </table>
 
-            .tg td {
-                font-family: Arial, sans-serif;
 
-                font-weight: 900;
-                padding: 1px;
-                border-style: solid;
-                border-width: 1px;
-                overflow: hidden;
-                word-break: normal;
-                border-color: rgb(0, 0, 0);
-            }
 
-            .tg th {
-                font-family: Arial, sans-serif;
 
-                font-weight: 900;
-                padding: 10px;
-                border-style: solid;
-                border-width: 1px;
-                overflow: hidden;
-                word-break: normal;
-                border-color: rgb(0, 0, 0);
-            }
-
-            .tg .tg-iq9e {
-                font-size: 20px;
-                border-color: rgba(0, 0, 0, 0);
-                text-align: center;
-            }
-        </style>
         <!-- table format -->
         <table class="tg">
             <tr>
@@ -402,13 +513,13 @@
             </tr>
             <tr>
                 <td class="tg-iq9e">
-                    <button id="btnADDTEAM_A" style="width:100px;height:40">
+                    <button id="btnADDTEAM_A" class="button">
                         +
                     </button>
                 </td>
                 <td class="tg-iq9e"></td>
                 <td class="tg-iq9e">
-                    <button id="btnADDTEAM_B" style="width:100px;height:40">
+                    <button id="btnADDTEAM_B" class="button">
                         +
                     </button>
                 </td>
@@ -418,20 +529,22 @@
                 <td class="tg-iq9e">
                     <h1> <span id="team1_score">0</span> </h1>
                 </td>
-                <td class="tg-iq9e"></td>
+                <td class="tg-iq9e"><button id="btnreset">RESET</button><br /><br /><button id="btngoal">goal</button>
+                </td>
+
                 <td class="tg-iq9e">
                     <h1> <span id="team2_score">0</span> </h1>
                 </td>
             </tr>
             <tr>
                 <td class="tg-iq9e">
-                    <button id="btnSUBTEAM_A" style="width:100px;height:40">
+                    <button id="btnSUBTEAM_A" class="button">
                         -
                     </button>
                 </td>
                 <td class="tg-iq9e"></td>
                 <td class="tg-iq9e">
-                    <button id="btnSUBTEAM_B" style="width:100px;height:40">
+                    <button id="btnSUBTEAM_B" class="button">
                         -
                     </button>
                 </td>
